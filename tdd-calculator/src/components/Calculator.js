@@ -10,16 +10,28 @@ const Calculator = () => {
 
   const handleClick = (value) => {
     if (value === "=") {
-        const evalResult = evaluate(input); 
+      try {
+        const evalResult = evaluate(input);
         setResult(evalResult === Infinity ? "Error" : evalResult.toString());
+      } catch {
+        setResult("Error");
+      }
     } else if (value === "C") {
-      // Clear the input and result
       setInput("");
       setResult("");
     } else {
-      setInput((prev) => prev + value);
+      setInput((prev) => {
+        if (result && !prev) {
+          return result + value;
+        }
+        return prev + value; 
+      });
+      setResult(""); 
     }
   };
+  
+  
+  
 
   return (
     <div className="calculator">
